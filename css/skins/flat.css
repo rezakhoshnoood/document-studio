@@ -1,0 +1,34 @@
+/* Skin: Flat Dark — تاریک تخت */
+body[data-skin="flat"]{
+  --bg:#0b0d12;
+  --panel:#151922;
+  --panel-solid:#151922;
+  --border:#262c3a;
+  --text:#e6eaf2;
+  --muted:#8b95a8;
+  --accent:#4f8cff;
+  --accent-2:#4f8cff;
+  --accent-soft:#1b2536;
+  --radius:8px;
+  --radius-sm:6px;
+  --shadow-1:none;
+  --shadow-2:none;
+}
+body[data-skin="flat"] *{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+body[data-skin="flat"] .card,
+body[data-skin="flat"] .feature,
+body[data-skin="flat"] .doc-card,
+body[data-skin="flat"] .tpl-card,
+body[data-skin="flat"] .settings-card,
+body[data-skin="flat"] .modal,
+body[data-skin="flat"] .site-header,
+body[data-skin="flat"] .tabs{background:var(--panel);box-shadow:none}
+body[data-skin="flat"] .card.hoverable:hover,
+body[data-skin="flat"] .feature:hover,
+body[data-skin="flat"] .doc-card:hover{transform:none;box-shadow:none;background:#1a1f2b;border-color:var(--accent)}
+body[data-skin="flat"] .btn{background:#1a1f2b;border-color:var(--border);box-shadow:none}
+body[data-skin="flat"] .btn:hover{background:#212836}
+body[data-skin="flat"] .btn-primary{background:var(--accent);border-color:var(--accent)}
+body[data-skin="flat"] .hero h1{background:none;-webkit-text-fill-color:#fff;color:#fff}
+body[data-skin="flat"] .tab.active{background:var(--accent)}
+body[data-skin="flat"] .modal-backdrop{background:rgba(0,0,0,.78)}

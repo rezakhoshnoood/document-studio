@@ -1,0 +1,38 @@
+/* Skin: Light — روشن */
+body[data-skin="light"]{
+  --bg:#f5f7fb;
+  --panel:#ffffff;
+  --panel-solid:#ffffff;
+  --border:#e2e7f0;
+  --text:#1d2433;
+  --muted:#6b7688;
+  --accent:#2563eb;
+  --accent-2:#7c3aed;
+  --accent-soft:#e8efff;
+  --shadow-1:0 4px 14px rgba(23,43,77,.08);
+  --shadow-2:0 18px 48px rgba(23,43,77,.18);
+  --fx-opacity:.18;
+}
+body[data-skin="light"] .site-header{background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+body[data-skin="light"] .hero h1{background:linear-gradient(120deg,#1d2433,#2563eb 55%,#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent}
+body[data-skin="light"] .btn{background:#fff;border-color:#e2e7f0;color:var(--text)}
+body[data-skin="light"] .btn:hover{background:#f0f4ff}
+body[data-skin="light"] .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-color:transparent}
+body[data-skin="light"] .btn-primary:hover{filter:brightness(1.05);background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+body[data-skin="light"] .input,
+body[data-skin="light"] .select,
+body[data-skin="light"] .textarea{background:#f7f9fd;color:var(--text)}
+body[data-skin="light"] .modal-backdrop{background:rgba(23,43,77,.42)}
+body[data-skin="light"] .toast{background:#fff;color:var(--text)}
+body[data-skin="light"] .range{background:#dbe3f0}
+body[data-skin="light"] .switch input{background:#cbd5e6}
+body[data-skin="light"] .tab.active{color:#fff}
+body[data-skin="light"] .empty{border-color:#d8e0ee}
+
+body[data-skin="light"] .empty{border-color:#d8e0ee;color:#7b8698}
+body[data-skin="light"] .site-header .brand{color:var(--text)}
+body[data-skin="light"] .btn-danger{background:#fee2e2;color:#b91c1c;border-color:#fecaca}
+body[data-skin="light"] .skin-opt,body[data-skin="light"] .fx-opt,body[data-skin="light"] .pal-item{background:#f7f9fd;color:var(--text)}
+body[data-skin="light"] .skin-opt.active,body[data-skin="light"] .fx-opt.active{background:var(--accent-soft);color:var(--accent)}
+body[data-skin="light"] .chip.neutral{background:#eef2f9;color:#5b6577}
+body[data-skin="light"] .modal-backdrop{background:rgba(23,43,77,.35)}

@@ -1,0 +1,32 @@
+/* One set of controls; colors follow the chosen palette, never document variables. */
+body{font-size:calc(15px * var(--ui-scale,1))}
+body[data-skin].editing{background:var(--app-bg)!important}
+body[data-skin] .editor{--panel:var(--app-panel);--panel-solid:var(--app-panel);--border:var(--app-border);--text:var(--app-text);--muted:var(--app-muted);--accent:var(--app-accent);--accent-soft:color-mix(in srgb,var(--app-accent) 20%,var(--app-panel));background:var(--app-bg);font-size:calc(13.5px * var(--ui-scale,1))}
+body[data-skin] .site-header,body[data-skin] .card,body[data-skin] .feature,body[data-skin] .doc-card,body[data-skin] .tpl-card,body[data-skin] .settings-card,body[data-skin] .modal,body[data-skin] .tabs{background:var(--app-panel);color:var(--app-text);border-color:var(--app-border)}
+body[data-skin] .btn{background:color-mix(in srgb,var(--app-panel) 90%,var(--app-text));border-color:var(--app-border);color:var(--app-text)}
+body[data-skin] .btn:hover{background:color-mix(in srgb,var(--app-panel) 80%,var(--app-accent))}
+body[data-skin] .btn-primary{background:var(--app-accent);border-color:var(--app-accent);color:#fff}
+body[data-skin] .btn-primary:hover{background:var(--app-accent);filter:brightness(1.1)}
+body[data-skin] .btn-danger{background:#932c45;color:#fff;border-color:#b75068}
+body[data-skin] .input,body[data-skin] .select,body[data-skin] .textarea{background:var(--app-bg);color:var(--app-text);border-color:var(--app-border)}
+body[data-skin] .ed-top,body[data-skin] .web-controls,body[data-skin] .ed-side,body[data-skin] .ed-status,body[data-skin] .panel-head{background:var(--app-panel);color:var(--app-text);border-color:var(--app-border)}
+body[data-skin] .workspace-nav-container{background:var(--app-bg);border-color:var(--app-border)}
+body[data-skin] .workspace-switch button,body[data-skin] .workspace-hint,body[data-skin] .web-controls>span,body[data-skin] .ed-top .icon-btn,body[data-skin] .panel-head .icon-btn,body[data-skin] .prop-group h4,body[data-skin] .layer,body[data-skin] .pal-item{color:var(--app-text)}
+body[data-skin] .workspace-switch button.active,body[data-skin] .layer.active{background:color-mix(in srgb,var(--app-accent) 30%,var(--app-panel));color:var(--app-text);border-color:var(--app-accent)}
+body[data-skin] .web-controls .btn,body[data-skin] .pal-item{background:var(--app-panel);color:var(--app-text);border-color:var(--app-border)}
+body[data-skin] .web-controls .random-design{background:var(--app-accent);color:#fff}
+body[data-skin] .context-popover,body[data-skin] .ctx-toolbar{background:var(--app-panel);color:var(--app-text);border-color:var(--app-border)}
+body[data-skin] .ctx-body{background:var(--app-bg);color:var(--app-text);border-color:var(--app-border)}
+body[data-skin] .ctx-title,body[data-skin] .ctx-section-title,body[data-skin] .ctx-range,body[data-skin] .ctx-color,body[data-skin] .ctx-cell-info,body[data-skin] .ctx-range output,body[data-skin] .ctx-icon{color:var(--app-text)}
+body[data-skin] .ctx-plain,body[data-skin] .ctx-mini{background:var(--app-panel);color:var(--app-text);border-color:var(--app-border)}
+body[data-skin] .viewport-bar,body[data-skin] .zoom-pill{background:var(--app-panel);color:var(--app-text);border-color:var(--app-border)}
+.ui-palette-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(76px,1fr));gap:7px}.ui-palette{display:flex;align-items:center;gap:7px;padding:7px;border:1px solid var(--app-border);background:var(--app-bg);color:var(--app-text);border-radius:var(--radius-sm);cursor:pointer;font:inherit}.ui-palette span{width:18px;height:18px;border-radius:50%;flex:none}.ui-palette.active{outline:2px solid var(--app-accent);outline-offset:1px}.ui-palette small{font-size:.75rem}
+body[data-ui-density="compact"] .settings-card{padding:14px}body[data-ui-density="compact"] .panel-head{padding:5px 9px}body[data-ui-density="compact"] .layer{min-height:27px;padding:3px 7px}body[data-ui-density="compact"] .pal-item{min-height:29px}
+body[data-ui-motion="off"] .hero-kicker,body[data-ui-motion="off"] .hero .sub,body[data-ui-motion="off"] .hero-cta,body[data-ui-motion="off"] .feature{animation:none!important}
+body[data-ui-motion="off"] .hero .caret{animation:none!important}
+
+body[data-skin] .web-controls .btn:not(.random-design){background:var(--app-panel);color:var(--app-text);border-color:var(--app-border)}
+body[data-skin] .ed-side .input,body[data-skin] .ed-side .select,body[data-skin] .ed-side .textarea{background:var(--app-bg);color:var(--app-text);border-color:var(--app-border)}
+
+.ui-shade-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:8px}.ui-shade{border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--text);padding:6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}.ui-shade.active{outline:2px solid var(--accent)}.ui-shade span{display:block;width:100%;height:24px;border:1px solid #8995a2;border-radius:4px}
+.ui-theme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:8px;margin:.4rem 0 1rem}.ui-theme-card{display:flex;align-items:center;gap:9px;padding:8px;border:1px solid var(--app-border);background:var(--app-panel);color:var(--app-text);border-radius:9px;font:inherit;text-align:start;cursor:pointer}.ui-theme-card:hover{border-color:var(--app-accent);background:color-mix(in srgb,var(--app-panel) 94%,var(--app-accent))}.ui-theme-card.active{outline:2px solid var(--app-accent);outline-offset:1px}.ui-theme-card:focus-visible{outline:3px solid #e1a52a;outline-offset:2px}.ui-theme-preview{width:44px;height:30px;border:1px solid;border-radius:5px;position:relative;flex:none;overflow:hidden}.ui-theme-preview i{position:absolute;inset:4px 4px 4px 13px;border:1px solid;border-radius:3px}.ui-theme-preview b{position:absolute;bottom:6px;right:7px;width:11px;height:4px;border-radius:2px}

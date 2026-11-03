@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Document Studio — print.css
+   ========================================================================== */
+@page{size:A4;margin:12mm}
+@media print{
+  html,body{background:#fff !important;color:#000 !important;overflow:visible !important;height:auto !important}
+  #bg-canvas,#modal-host,#toast-host,.site-header,.site-footer,
+  .ed-top,.ed-side,.ed-status,.zoom-pill,.drawer-backdrop,
+  .b-tools,.doc-badge,.present-controls,.present-topbar,.present-title,.present-exit,.present-hint,
+  .no-print{display:none !important}
+  #app,.editor,.ed-body,.ed-canvas{display:block !important;overflow:visible !important;height:auto !important;padding:0 !important;background:#fff !important;position:static !important}
+  .canvas-shell{width:100% !important;transform:none !important}
+  .doc-page{
+    width:100% !important;min-height:0 !important;box-shadow:none !important;border-radius:0 !important;
+    padding:0 !important;page-break-after:always;break-after:page;
+  }
+  .doc-page:last-child{page-break-after:auto;break-after:auto}
+  .doc-page .b{break-inside:avoid;page-break-inside:avoid;box-shadow:none !important;outline:none !important}
+  .doc-page .b.anim{opacity:1 !important;animation:none !important;transform:none !important}
+  .b-hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .b-table th,.b-table tfoot td,.b-stat .stat,.b-timeline .tl-dot{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .b-code{background:#f4f6fb !important;border-color:#dde3ef !important}
+  .b-code pre{color:#1e2437 !important}
+  a{color:#000 !important;text-decoration:none}
+  .doc-page .doc-footer{color:#666 !important}
+  .present{position:static !important;background:#fff !important;display:block !important;overflow:visible !important}
+  .present-scroll{overflow:visible !important;padding:0 !important}
+  .present .present-page{width:100% !important;box-shadow:none !important;border-radius:0 !important;padding:0 !important}
+}
