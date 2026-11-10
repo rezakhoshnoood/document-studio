@@ -12,9 +12,10 @@ import { renderEditor } from './views/editor.js';
 import { renderSettings } from './views/settings.js';
 import { renderPresent } from './views/present.js';
 import { renderPrint } from './views/print.js';
+import { renderLanding } from './views/landing.js';
 import { decodeDocParam } from './features/share.js';
 
-const VERSION = '3.7.0';
+const VERSION = '4.0.0';
 
 function applyWorkspaceChrome() {
   const settings = getSettings();
@@ -26,7 +27,7 @@ function applyWorkspaceChrome() {
   body.style.setProperty('--ui-scale',String(Math.max(.9,Math.min(1.15,Number(settings.uiScale)||1))));
   if(settings.uiRadius!=null && Number.isFinite(Number(settings.uiRadius))){const n=Math.max(0,Math.min(24,Number(settings.uiRadius)));body.style.setProperty('--radius',n+'px');body.style.setProperty('--radius-sm',Math.round(n*.7)+'px');}else{body.style.removeProperty('--radius');body.style.removeProperty('--radius-sm');}
   const path=parseHash().path;
-  const inWorkspace=/^\/(editor|print|present)(\/|$)/.test(path);
+  const inWorkspace=/^\/(editor|print|present|landing)(\/|$)/.test(path);
   bg.set(inWorkspace?'none':(settings.effect || 'particles'), {
     color: settings.effectColor || '#4f8cff',
     opacity: settings.effectOpacity ?? 0.55, interactive: !!settings.effectInteractive
@@ -60,6 +61,7 @@ function boot() {
     document.body.classList.remove('editing');
     applyWorkspaceChrome(); renderGallery(root());
   });
+  route('/landing/:id/:block', ({id,block}) => { applyWorkspaceChrome(); renderLanding(root(),{id,block}); });
   route('/settings', () => {
     document.body.classList.remove('editing');
     applyWorkspaceChrome(); renderSettings(root());

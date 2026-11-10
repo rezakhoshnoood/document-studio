@@ -5,7 +5,7 @@ import { t, getLang, setLang } from '../core/i18n.js';
 import {saveSettings,getSettings} from '../core/state.js';
 import {resolve} from '../core/router.js';
 
-export const VERSION = '3.7.0';
+export const VERSION = '4.0.0';
 
 export function siteHeader(active = '') {
   const navBtn = (id, label, href, iconName) => createElement('a.btn.btn-ghost.btn-sm' + (active === id ? '.active' : ''), {

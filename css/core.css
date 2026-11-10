@@ -497,6 +497,7 @@ body:not(.print-workspace) .doc-page.site-page .b-table th{background:color-mix(
 .doc-page .b-table :is(th,td){white-space:pre-wrap;overflow-wrap:anywhere}
 .doc-page .b-table [data-merge-covered]{display:none!important}
 .doc-page .b-table .table-cell-editor{display:block;min-height:1.2em;outline-offset:-2px}
+.landing-document-preview iframe{display:block;width:100%;height:750px;border:0;background:#fff;max-width:100%}
 /* @doc-css-end */
 
 /* responsive tweaks */

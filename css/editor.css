@@ -454,3 +454,4 @@ body.editing .editor[data-workspace="simple"] .doc-page.site-page .b-table tbody
 .part-arrow-controls button:hover,.part-arrow-controls button:focus-visible{background:#7236a2}
 .table-merge-trigger{background:rgb(0 112 96 / .72)}.table-merge-trigger:hover,.table-merge-trigger:focus-visible{background:#007060}
 .table-merge-trigger{width:19px;height:19px;border-radius:5px;font-size:14px;line-height:16px}
+.landing-document-preview iframe{display:block;border:0;width:100%;height:750px;background:white;border-radius:8px}.b-layout:has(.landing-document-preview){overflow:hidden}

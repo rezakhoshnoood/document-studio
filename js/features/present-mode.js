@@ -9,6 +9,7 @@ import { BackgroundManager } from '../effects/manager.js';
 import { getAppearance, paletteCss } from './appearance.js';
 import { createCustomBackground } from './custom-background.js';
 import { t, getLang } from '../core/i18n.js';
+import { showDocumentBranding } from '../core/state.js';
 
 const SPEEDS = { slow: 1.4, normal: 1, fast: 0.6 };
 
@@ -43,10 +44,8 @@ export function createPresent(host, doc, opts = {}) {
     blk.style.setProperty('--anim-dur', (parseFloat(b.style?.animationDuration || '0.6') * speedFactor) + 's');
     page.appendChild(blk);
   });
-  if (settings.showFooter !== false) {
-    page.appendChild(createElement('div.doc-footer', { html:
-      `<span>${lang === 'en' ? 'Made with Document Studio' : 'ساخته شده با سندساز هوشمند'}</span>` +
-      `<span>${lang === 'en' ? 'Reza Khoshnood' : 'رضا خوشنود'} · reza.khoshnoood@gmail.com</span>` }));
+  if (showDocumentBranding(doc)) {
+    page.appendChild(createElement('div.doc-footer', { text:lang === 'en' ? 'Made with Document Studio' : 'ساخته شده با سندساز هوشمند' }));
   }
   scroller.appendChild(page);
   const freePage=setupFreePage(page);

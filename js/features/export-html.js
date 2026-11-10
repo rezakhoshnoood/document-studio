@@ -5,7 +5,7 @@ import {createReactiveBackground} from '../effects/reactive-background.js';
 import { createCustomInteraction } from './custom-interaction.js';
 import { setupFreePage } from './free-layout.js';
 import { renderBlock } from '../blocks/base.js';
-import { themeCss, getTheme } from '../core/state.js';
+import { themeCss, getTheme, showDocumentBranding } from '../core/state.js';
 import { encryptJSON } from './encryption.js';
 import { escapeHTML } from '../core/dom.js';
 import { fontFaceCss } from '../core/fonts.js';
@@ -273,12 +273,9 @@ export function renderBlocksHTML(doc, { editable = false, animate = false } = {}
   (doc.blocks || []).forEach((b, i) => {
     tmp.appendChild(renderBlock(b, { editable, animate, animateCharts:animate, index: i, doc }));
   });
-  if (doc.settings?.showFooter !== false) {
-    const f = document.createElement('div');
-    f.className = 'doc-footer';
-    f.innerHTML = (doc.lang === 'en'
-      ? '<span>Made with Document Studio</span><span>Design: Reza Khoshnood · reza.khoshnoood@gmail.com</span>'
-      : '<span>ساخته شده با سندساز هوشمند</span><span>طراح: رضا خوشنود · reza.khoshnoood@gmail.com</span>');
+  if (showDocumentBranding(doc)) {
+    const f = document.createElement('div'); f.className = 'doc-footer';
+    f.textContent = doc.lang === 'en' ? 'Made with Document Studio' : 'ساخته شده با سندساز هوشمند';
     tmp.appendChild(f);
   }
   return tmp.innerHTML;
@@ -913,8 +910,7 @@ export async function buildExportHTML(doc, opts = {}) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title}</title>
-<meta name="generator" content="Document Studio — طراحی: رضا خوشنود">
-<meta name="author" content="Reza Khoshnood">
+
 <style>
 ${fontFaceCss()}
 :root{--fx-opacity:${effectOpacity};--fx-color:${effectColor}}
@@ -931,11 +927,7 @@ ${UI_CSS}
 ${toolbar}
 ${printStudio}
 <main class="document-content doc-page site-page" data-web-surface="${appearance.surface}" data-web-style="${appearance.style}" data-web-width="${appearance.width}" data-web-layout="${appearance.layout}" data-web-theme-hero="${appearance.themeHero}" data-free-layout="${mode.lock?'false':String(!!doc.settings?.freeLayout)}" data-theme="${themeId}" style="${paletteCss(appearance.palette)}" dir="${dir}" lang="${lang}">${mainInner}</main>
-<footer class="ds-credit">
-  ${lang === 'en'
-    ? 'Made with <b>Document Studio</b> · Design: <b>Reza Khoshnood</b> · reza.khoshnoood@gmail.com'
-    : 'ساخته شده با <b>سندساز هوشمند</b> · طراح: <b>رضا خوشنود (Reza Khoshnood)</b> · reza.khoshnoood@gmail.com'}
-</footer>
+
 ${effectPanel}
 ${presentBar}
 ${lockScreen}

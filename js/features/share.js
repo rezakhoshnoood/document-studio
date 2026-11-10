@@ -1,5 +1,5 @@
 /* features/share.js — اشتراک‌گذاری: متن ساده، لینک فشرده، شبکه‌های اجتماعی */
-import { getDoc } from '../core/state.js';
+import { getDoc, showDocumentBranding } from '../core/state.js';
 import { smartFooter,displayTableCell } from '../core/table-math.js';
 
 /* ---------------- متن ساده ---------------- */
@@ -61,7 +61,7 @@ export function docToPlainText(doc) {
     }
     (d.miniBlocks||[]).forEach(m=>{if(m.type==='divider')lines.push('—'.repeat(16));else if(m.type==='image'){if(m.alt)lines.push('[Image] '+m.alt);}else if(m.text)lines.push(m.text+(m.type==='button'&&m.href?' ('+m.href+')':''));});
   });
-  lines.push('', '—'.repeat(28), 'ساخته شده با سندساز هوشمند | طراح: رضا خوشنود', 'reza.khoshnoood@gmail.com');
+  if(showDocumentBranding(doc)) lines.push('',doc.lang === 'en' ? 'Made with Document Studio' : 'ساخته شده با سندساز هوشمند');
   return lines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
 }
 

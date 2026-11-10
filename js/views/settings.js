@@ -69,6 +69,8 @@ export function renderSettings(root) {
   ]));
   const reset=section(L('بازنشانی تنظیمات برنامه','Reset application settings'),L('این کار فقط تنظیمات برنامه را بازنشانی می‌کند؛ سندها، قالب‌ها و پریست‌ها حذف نمی‌شوند.','Only application settings are reset; documents, templates and presets remain.'),createElement('button.btn.btn-sm',{'data-reset-settings':'true',onclick:async()=>{if(await confirmDialog(L('تنظیمات برنامه به حالت اولیه بازگردد؟ سندها حذف نمی‌شوند.','Restore default application settings? Documents will not be deleted.'),{ok:L('بازنشانی','Reset')})){resetSettings();setLang('en');renderSettings(root);toast('Application settings reset.','ok');}}},L('بازنشانی تنظیمات برنامه','Reset app settings')));
   const install=section(t('settings.install'),t('settings.install.d'),createElement('button.btn.btn-sm',{onclick:async()=>{if(window.__dsInstallPrompt){window.__dsInstallPrompt.prompt();await window.__dsInstallPrompt.userChoice;window.__dsInstallPrompt=null;}else toast(L('از منوی مرورگر گزینه نصب را انتخاب کنید.','Use your browser’s Install app command if available.'));}},t('settings.install')));
+  const brandingToggle=createElement('input',{type:'checkbox','aria-label':L('برچسب پیش‌فرض سند','Default document branding')});brandingToggle.checked=settings.brandingDefault===true;brandingToggle.addEventListener('change',()=>saveSettings({brandingDefault:brandingToggle.checked}));
+  const branding=section(L('برچسب سند','Document branding'),L('پیش‌فرض برای همه سندها؛ در تنظیمات هر سند می‌توانید جداگانه آن را تغییر دهید. فقط نام برنامه نمایش داده می‌شود.','Default for documents; each document can override it. Only the app name is shown.'),createElement('label.switch',{},[brandingToggle,L('نمایش «ساخته شده با سندساز هوشمند»','Show “Made with Document Studio”')]));
   const about=section(t('settings.about'),null,createElement('div.about-box',{},[
     createElement('strong',{text:t('app.title')+' · '+VERSION}),createElement('p',{text:t('app.credit')}),
     createElement('a',{href:'mailto:reza.khoshnoood@gmail.com',text:'reza.khoshnoood@gmail.com'}),
@@ -77,7 +79,7 @@ export function renderSettings(root) {
   root.appendChild(pageShell('settings',[createElement('section.section.wrap',{},[
     createElement('h1',{text:t('settings.title'),style:{margin:'0 0 .3rem',fontSize:'1.35rem'}}),
     createElement('p.muted.small',{text:L('تنظیمات در این مرورگر ذخیره می‌شود.','Settings are stored in this browser.')}),
-    createElement('div.settings-grid.mt3',{},[appearance,customize,effects,language,reset,data,install,about])
+    createElement('div.settings-grid.mt3',{},[appearance,customize,effects,language,branding,reset,data,install,about])
   ])]));
 }
 export default renderSettings;

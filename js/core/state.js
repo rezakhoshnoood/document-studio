@@ -41,6 +41,7 @@ export const DEFAULT_SETTINGS = {
   effectOpacity: 0.55,
   lang: 'en',
   documentLang: 'en',
+  brandingDefault: false,
   lastDocId: null
 };
 const storedSettings = read(K.settings, null);
@@ -51,6 +52,8 @@ let settings = { ...DEFAULT_SETTINGS, ...(storedSettings || {}) };
 if (storedSettings && !Object.prototype.hasOwnProperty.call(storedSettings, 'documentLang')) settings.documentLang='fa';
 if ((!storedSettings || !storedSettings.lang) && (oldLang==='fa' || oldLang==='en')) settings.lang=oldLang;
 export const getSettings = () => ({ ...settings });
+// Legacy showFooter contained author attribution; only the new explicit choice controls branding.
+export function showDocumentBranding(doc) { const mode=doc?.settings?.branding; return mode==='on' ? true : mode==='off' ? false : settings.brandingDefault === true; }
 export function saveSettings(patch = {}) {
   settings = { ...settings, ...patch };
   write(K.settings, settings);
@@ -181,7 +184,8 @@ export const DEFAULT_DOC_SETTINGS = {
   musicUrl: '',
   animations: true,
   exportMode: 'view',
-  showFooter: true
+  showFooter: false,
+  branding: 'inherit'
 };
 
 export function listDocs() {

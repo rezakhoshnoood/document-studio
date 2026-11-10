@@ -1,5 +1,6 @@
 /* blocks/base.js — کلاس/رجیستری پایه بلوک‌ها، ساخت، رندر و استایل */
 import { createElement, uid, debounce, clamp } from '../core/dom.js';
+import { showDocumentBranding } from '../core/state.js';
 import { persianDigits, normalizeEditableDigits } from '../core/numbers.js';
 import { t, getLang } from '../core/i18n.js';
 import { applyTextInk, richHTMLWithoutInk } from './ink.js';
@@ -156,10 +157,8 @@ export function renderPage(doc, ctx = {}) {
   (doc.blocks || []).forEach((b, i) => {
     page.appendChild(renderBlock(b, { ...ctx, index: i, doc }));
   });
-  if (doc.settings && doc.settings.showFooter !== false && ctx.footer !== false) {
-    page.appendChild(createElement('div.doc-footer', { html:
-      `<span>${doc.lang === 'en' ? 'Made with Document Studio' : 'ساخته شده با سندساز هوشمند'}</span>` +
-      `<span>${doc.lang === 'en' ? 'Reza Khoshnood' : 'طراح: رضا خوشنود'} · reza.khoshnoood@gmail.com</span>` }));
+  if (showDocumentBranding(doc) && ctx.footer !== false) {
+    page.appendChild(createElement('div.doc-footer', { text:doc.lang === 'en' ? 'Made with Document Studio' : 'ساخته شده با سندساز هوشمند' }));
   }
   return page;
 }

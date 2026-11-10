@@ -1,6 +1,8 @@
 /* Code-authored, scoped HTML/CSS layout. JavaScript is deliberately excluded. */
 import { createElement } from '../core/dom.js';
 import { getLang } from '../core/i18n.js';
+import { navigate } from '../core/router.js';
+import { previewDocument } from '../features/landing-engine.js';
 export const INITIAL_LAYOUT = { html: '<section class="intro">\n  <p class="eyebrow">خوش آمدید</p>\n  <h1>صفحه من</h1>\n  <p>این چیدمان را با HTML و CSS شخصی‌سازی کنید.</p>\n</section>\n<section class="cards">\n  <article>بخش اول</article><article>بخش دوم</article>\n</section>', css: '.intro{padding:3rem 1rem;text-align:center}\n.intro h1{font-size:clamp(2rem,5vw,4rem);margin:.3em 0}\n.eyebrow{color:#8db7ff}\n.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}\n.cards article{padding:2rem;background:#223454;border-radius:1rem}\n@container (max-width: 600px){.cards{grid-template-columns:1fr}}' };
 function sanitizeHTML(source) {
   const parsed = new DOMParser().parseFromString(String(source || ''), 'text/html');
@@ -38,6 +40,13 @@ const def = {
   type:'layout', icon:'</>', labelKey:'block.layout',
   createData:()=>({...INITIAL_LAYOUT}),
   render(block, ctx={}) {
+    if(block.data.landing){
+      const wrap=createElement('div.landing-document-preview');
+      const frame=createElement('iframe',{'title':ctx.doc?.lang==='en'?'Landing page preview':'پیش‌نمایش لندینگ',sandbox:'',loading:'lazy'});
+      frame.srcdoc=previewDocument(block.data.html,block.data.css);
+      if(ctx.editable)frame.style.pointerEvents='none';
+      wrap.append(frame);return wrap;
+    }
     const el=createElement('div.custom-layout');
     const id='layout-'+String(block.id).replace(/[^a-zA-Z0-9_-]/g,'');
     el.id=id;
@@ -53,7 +62,9 @@ const def = {
     const html=field('HTML layout',block.data.html), css=field('CSS layout',block.data.css);
     const apply=()=>{block.data.html=html.value;block.data.css=css.value;api.rerender();api.commit();};
     return [api.group(en?'Custom layout code':L('کد چیدمان دلخواه','Custom layout code'),[
-      createElement('p.hint',{text:en?'HTML and scoped CSS only; scripts, event handlers and external assets are removed. Use @container for responsive preview; @keyframes is not supported.':L('HTML و CSS محدود به همین بلوک هستند؛ اسکریپت، رویدادها و فایل\u200cهای خارجی حذف می\u200cشوند. برای واکنش\u200cگرایی در پیش\u200cنمایش از @container استفاده کنید؛ @keyframes پشتیبانی نمی\u200cشود.','HTML and CSS are scoped to this block; scripts, events and external files are removed. Use @container for responsive previews; @keyframes are not supported.')}),
+      api.button(en?'Open landing page editor':'باز کردن ویرایشگر لندینگ',()=>{block.data.landing=true;api.commit();navigate('/landing/'+encodeURIComponent(api.doc.id)+'/'+encodeURIComponent(block.id));}),
+      createElement('p.hint',{text:en?'Landing editor preserves source HTML and isolates its preview.':'ویرایشگر لندینگ کد اصلی را حفظ می‌کند و پیش‌نمایش را جدا نگه می‌دارد.'}),
+      createElement('p.hint',{text:block.data.landing?(en?'The document shows an isolated, static preview. Use the landing editor to manage the source and optional script permissions.':'سند یک پیش‌نمایش ایزوله و غیرفعال نشان می‌دهد. برای مدیریت کد و مجوزهای اختیاری از ویرایشگر لندینگ استفاده کنید.'):(en?'HTML and scoped CSS only; scripts, event handlers and external assets are removed. Use @container for responsive preview; @keyframes is not supported.':'HTML و CSS محدود به همین بلوک هستند؛ اسکریپت و منابع خارجی حذف می‌شوند. برای واکنش‌گرایی از @container استفاده کنید؛ @keyframes پشتیبانی نمی‌شود.')}),
       api.field('HTML',html),api.field('CSS',css),
       api.button(en?'Apply changes':L('اعمال تغییرات','Apply changes'),apply)
     ])];

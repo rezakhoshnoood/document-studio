@@ -1248,8 +1248,9 @@ export function renderEditor(root, { id } = {}) {
     const animSwitch = createElement('input', { type: 'checkbox' });
     animSwitch.checked = s.animations !== false;
 
-    const footerSwitch = createElement('input', { type: 'checkbox' });
-    footerSwitch.checked = s.showFooter !== false;
+    const footerMode = createElement('select.select',{'aria-label':en?'Document branding':'برچسب ساخته‌شده با'});
+    [['inherit',en?'Use app default':'پیش‌فرض برنامه'],['on',en?'Show':'نمایش'],['off',en?'Hide':'عدم نمایش']].forEach(([value,text])=>footerMode.appendChild(createElement('option',{value,text})));
+    footerMode.value=['on','off'].includes(s.branding)?s.branding:'inherit';
 
     const musicInput = createElement('input.input', { value: s.musicUrl || '', placeholder: 'https://…mp3', dir: 'ltr' });
 
@@ -1303,7 +1304,7 @@ export function renderEditor(root, { id } = {}) {
           field((getLang()==='en'?'Auto-scroll interval (seconds)':'فاصله اسکرول خودکار (ثانیه)'), autoInterval),
           createElement('label.switch', { style: { display: 'flex', marginBottom: '.4rem' } }, [progressSwitch, (getLang()==='en'?'Show progress bar':'نمایش نوار پیشرفت')]),
           createElement('label.switch', { style: { display: 'flex', marginBottom: '.4rem' } }, [animSwitch, t('export.blockAnims')]),
-          createElement('label.switch', { style: { display: 'flex', marginBottom: '.4rem' } }, [footerSwitch, (getLang()==='en'?'Show document footer':'نمایش فوتر سند')]),
+          field(en?'Made with Document Studio label':'برچسب ساخته‌شده با سندساز',footerMode),
           field((getLang()==='en'?'Background music URL (optional)':'نشانی موسیقی پس‌زمینه (اختیاری)'), musicInput),
           field(en?'Local music':'موسیقی از دستگاه',musicFile),musicInfo,clearMusic,createElement('p.hint',{text:en?'Local audio takes priority over the URL. Playback may require a user gesture.':'موسیقی محلی بر نشانی اینترنتی اولویت دارد. پخش ممکن است به تعامل کاربر با مرورگر نیاز داشته باشد.'})
         ])
@@ -1324,7 +1325,7 @@ export function renderEditor(root, { id } = {}) {
             s.autoScrollInterval = Number(autoInterval.value) || 5;
             s.showProgress = progressSwitch.checked;
             s.animations = animSwitch.checked;
-            s.showFooter = footerSwitch.checked;
+            s.branding = footerMode.value;
             s.musicUrl = musicInput.value.trim();
             commitHistory(doc);
             canvasRender();

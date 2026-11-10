@@ -8,6 +8,7 @@ import { TEMPLATES, templateToDoc } from '../templates/index.js';
 import { pageShell } from './chrome.js';
 import {documentThumb,releaseThumbnails} from '../features/template-ui.js';
 import { navigate, registerCleanup } from '../core/router.js';
+import { importSite } from '../features/site-import.js';
 import { exportAllJSON, pickJSONFile, importDocuments } from '../features/export-json.js';
 
 const FEATURES = [
@@ -63,16 +64,35 @@ async function installApp(){
 }
 
 function openCodeLayout() {
-  const en=getLang()==='en', L=(fa,enText)=>en?enText:fa;
-  const html=createElement('textarea.textarea',{rows:12,dir:'ltr',spellcheck:'false','aria-label':'HTML',placeholder:'<section><h1>My page</h1></section>',style:{fontFamily:'monospace',textAlign:'left',minHeight:'210px'}});
-  const css=createElement('textarea.textarea',{rows:5,dir:'ltr',spellcheck:'false','aria-label':'CSS',placeholder:'section { padding: 2rem; }',style:{fontFamily:'monospace',textAlign:'left'}});
-  const body=createElement('div',{},[createElement('p.hint',{text:L('HTML را وارد کنید و «ساخت چیدمان» را بزنید. CSS جداگانه یا تگ style پذیرفته می‌شود. اسکریپت، رویدادها و منابع خارجی به دلایل امنیتی اجرا نمی‌شوند.','Paste HTML and choose Build layout. Separate CSS or style tags are supported. Scripts, events and external resources are not run for safety.')}),createElement('label',{text:'HTML'}),html,createElement('label',{text:'CSS'}),css]);
-  openModal({title:L('ساخت چیدمان با کد','Build a layout from code'),size:'lg',body,footer:[createElement('button.btn',{onclick:closeModal},t('btn.cancel')),createElement('button.btn.btn-primary',{onclick:()=>{
-    if(!html.value.trim()){toast(L('کد HTML را وارد کنید.','Enter HTML first.'),'err');return;}
-    const parsed=new DOMParser().parseFromString(html.value,'text/html');const embedded=Array.from(parsed.querySelectorAll('style')).map(x=>x.textContent).join('\n');
-    const block=createBlock('layout',{data:{html:html.value,css:[css.value,embedded].filter(Boolean).join('\n')}});
-    const d=createDoc({name:L('چیدمان کدنویسی‌شده','Custom code layout'),blocks:[block]});if(d){closeModal();navigate('/editor/'+d.id);}else toast(L('ساخت سند ناموفق بود.','Could not create document.'),'err');
-  }},L('ساخت چیدمان','Build layout'))]});
+ const en=getLang()==='en',L=(fa,eng)=>en?eng:fa;
+ const html=createElement('textarea.textarea',{rows:10,dir:'ltr',spellcheck:'false','aria-label':'HTML',placeholder:'<section><h1>My page</h1></section>',style:{fontFamily:'monospace',textAlign:'left',minHeight:'180px'}});
+ const css=createElement('textarea.textarea',{rows:4,dir:'ltr',spellcheck:'false','aria-label':'CSS',placeholder:'section { padding: 2rem; }',style:{fontFamily:'monospace',textAlign:'left'}});
+ const htmlFile=createElement('input.input',{type:'file',accept:'.html,.htm,text/html','aria-label':L('فایل HTML','HTML file')});
+ const assets=createElement('input.input',{type:'file',multiple:true,'aria-label':L('فایل‌های همراه','Supporting files')});
+ const folder=createElement('input.input',{type:'file',webkitdirectory:true,multiple:true,'aria-label':L('پوشه سایت','Site folder')});
+ const htmlChoice=createElement('select.select',{'aria-label':L('فایل صفحه از پوشه','HTML page in folder')});htmlChoice.hidden=true;
+ htmlFile.addEventListener('change',async()=>{const f=htmlFile.files[0];if(f){if(f.size>1200000){htmlFile.value='';toast(L('فایل HTML بیش از حد بزرگ است.','HTML file is too large.'),'err');return;}html.value=await f.text();}});
+ folder.addEventListener('change',()=>{clear(htmlChoice);const pages=Array.from(folder.files).filter(f=>/\.html?$/i.test(f.name));htmlChoice.append(createElement('option',{value:'',text:L('از کادر HTML یا فایل انتخاب‌شده استفاده کن','Use pasted HTML or chosen file')}));pages.forEach((f,i)=>htmlChoice.append(createElement('option',{value:String(i+1),text:f.webkitRelativePath||f.name})));htmlChoice._pages=pages;htmlChoice.hidden=!pages.length;});
+ htmlChoice.addEventListener('change',async()=>{const f=htmlChoice._pages?.[Number(htmlChoice.value)-1];if(f){if(f.size>1200000){htmlChoice.value='';toast(L('فایل HTML بیش از حد بزرگ است.','HTML file is too large.'),'err');return;}html.value=await f.text();}});
+ const body=createElement('div.site-import-form',{},[
+  createElement('p.hint',{text:L('کد را وارد کنید یا فایل HTML و فایل‌های همراه را انتخاب کنید. فایل‌های کوچک CSS، تصویر و فونت محلی در خروجی جاسازی می‌شوند؛ JavaScript و منابع خارجی پیش‌فرض خاموش‌اند.','Paste code or choose an HTML file and supporting files. Small local CSS, image and font files are embedded in the output; JavaScript and external resources are off by default.')}),
+  createElement('label',{text:L('فایل HTML (اختیاری)','HTML file (optional)')}),htmlFile,
+  createElement('label',{text:L('فایل‌های همراه (اختیاری)','Supporting files (optional)')}),assets,
+  createElement('label',{text:L('یا پوشه سایت (اختیاری)','Or site folder (optional)')}),folder,htmlChoice,
+  createElement('p.hint',{text:L('حداکثر ۲۰۰ فایل همراه، مجموع ۱٫۶ مگابایت و هر فایل ۱٫۲ مگابایت است. JavaScript محلی جاسازی می‌شود اما تا اجازهٔ شما اجرا نمی‌شود؛ import نسبی ممکن است کار نکند.','Supporting files: at most 200 files, 1.6 MB total, 1.2 MB per file. Local JavaScript is embedded but runs only with your permission; relative imports may fail.')}),
+  createElement('label',{text:'HTML'}),html,createElement('label',{text:'CSS'}),css]);
+ const start=createElement('button.btn.btn-primary',{type:'button'},L('ساخت سایت','Create site'));
+ start.addEventListener('click',async()=>{
+  if(!html.value.trim()){toast(L('کد یا فایل HTML را وارد کنید.','Enter HTML or choose a file.'),'err');return;}
+  start.disabled=true;
+  try{
+   const chosen=htmlChoice._pages?.[Number(htmlChoice.value)-1]||htmlFile.files[0];const files=Array.from(folder.files).concat(Array.from(assets.files)).filter(f=>f!==chosen&&!/\.html?$/i.test(f.name));
+   const imported=await importSite({html:html.value,css:css.value,files,htmlPath:chosen?.webkitRelativePath||chosen?.name||''});
+   const block=createBlock('layout',{data:{html:imported.html,css:imported.css,landing:true,originalImport:{html:html.value,css:css.value},importReport:imported.report,importFiles:imported.files,siteComponents:[]}});
+   const d=createDoc({name:L('سایت واردشده','Imported site'),blocks:[block]});if(!d){toast(L('ذخیره ناموفق بود؛ حجم فایل‌ها یا فضای مرورگر را بررسی کنید.','Storage failed. Check file size and browser storage.'),'err');return;}closeModal();navigate('/landing/'+d.id+'/'+block.id);
+  }catch(e){console.error(e);toast(e.message==='FILE_LIMIT'?L('حجم فایل‌های همراه بیش از حد مجاز است.','Supporting files exceed the size limit.'):L('خواندن فایل‌ها ناموفق بود.','Could not read the files.'),'err',6500);}finally{start.disabled=false;}
+ });
+ openModal({title:L('ساخت سایت با کد یا فایل','Create a site from code or files'),size:'lg',body,footer:[createElement('button.btn',{onclick:closeModal},t('btn.cancel')),start]});
 }
 
 export function renderHome(root) {

@@ -10,7 +10,6 @@ export function exportDocJSON(doc) {
     format: 'document-studio',
     version: 1,
     exportedAt: new Date().toISOString(),
-    author: 'Reza Khoshnood',
     documents: [doc]
   };
   downloadFile(slug(doc.name) + '.json', JSON.stringify(payload, null, 2), 'application/json;charset=utf-8');
@@ -23,7 +22,6 @@ export function exportAllJSON() {
     format: 'document-studio-backup',
     version: 1,
     exportedAt: new Date().toISOString(),
-    author: 'Reza Khoshnood',
     documents: docs
   };
   downloadFile('document-studio-backup-' + new Date().toISOString().slice(0, 10) + '.json',
