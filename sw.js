@@ -1,8 +1,8 @@
 /* Document Studio — Service Worker (stale-while-revalidate) */
-const VERSION = 'ds-v3.7.0';
+const VERSION = 'ds-v4.0.0';
 const ASSETS = [
   './', './index.html', './manifest.json',
-  './css/polish.css', './css/core.css', './css/editor.css', './css/print.css', './css/present.css',
+  './css/polish.css', './css/core.css', './css/editor.css', './css/landing.css', './css/print.css', './css/present.css',
   './css/skins/flat.css', './css/skins/light.css', './css/ui-colors.css',
   './js/app.js',
   './js/core/ui-colors.js', './js/core/icons.js', './js/core/numbers.js', './js/core/table-math.js', './js/core/dom.js', './js/core/state.js', './js/core/router.js', './js/core/i18n.js', './js/core/fonts.js',
@@ -13,7 +13,7 @@ const ASSETS = [
   './js/blocks/table-merge.js', './js/blocks/table-keyboard.js', './js/blocks/part-order.js', './js/blocks/typography.js', './js/blocks/icon-design.js', './js/blocks/logo.js', './js/blocks/mini-blocks.js', './js/blocks/ink.js', './js/blocks/parts.js', './js/blocks/table-ops.js', './js/blocks/table.js', './js/blocks/sign.js', './js/blocks/divider.js', './js/blocks/chart.js',
   './js/blocks/timeline.js', './js/blocks/flow.js', './js/blocks/stat-grid.js',
   './js/blocks/image.js', './js/blocks/code.js',
-  './js/features/encryption.js', './js/features/export-html.js', './js/features/export-present.js',
+  './js/features/landing-engine.js', './js/features/site-import.js', './js/features/site-components.js', './js/views/landing.js', './js/features/encryption.js', './js/features/export-html.js', './js/features/export-present.js',
   './js/features/export-pdf.js', './js/features/export-json.js', './js/features/share.js',
   './js/features/design-reset.js', './js/features/smart-arrange.js', './js/features/icon-upload.js', './js/features/free-layout.js', './js/features/custom-interaction.js', './js/features/appearance.js', './js/features/template-ui.js', './js/features/custom-background.js', './js/features/export-formats.js', './js/features/theme-builder.js', './js/features/present-mode.js',
   './js/views/home.js', './js/views/chrome.js', './js/views/gallery.js', './js/views/editor.js', './js/views/settings.js',

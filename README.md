@@ -1,12 +1,10 @@
 # Document Studio
 
-## Access to app : https://rezakhoshnoood.github.io/document-studio/
-
 **A bilingual, browser-based document editor for creating, presenting, and printing visual documents.**
 
 Document Studio is a lightweight web app built with vanilla HTML, CSS, and JavaScript. It supports Persian and English, right-to-left and left-to-right documents, and a range of visual content blocks. Documents are stored in the browser, so no account or application backend is required.
 
-> **Status:** Version 3.7.0 is experimental. Test important documents and keep backups before relying on the app for production work.
+> **Status:** Version 4.0.0 is experimental. Test important documents and keep backups before relying on the app for production work.
 
 ## Features
 
@@ -14,6 +12,8 @@ Document Studio is a lightweight web app built with vanilla HTML, CSS, and JavaS
 - **Bilingual built-in templates:** All 18 built-in templates have Persian and English example content. The selected document language controls direction, default document font, and supported number formatting.
 - **Featured templates:** An animated home showcase displays four randomly selected built-in templates; the entire showcase opens the complete gallery. Automatic rotation respects reduced-motion preferences.
 - **Install from Home:** Use the prominent install button where the browser supports installation, or follow the displayed browser-specific instructions.
+- **HTML landing editor:** Start from a full HTML document or fragment; edit on the page and in the original source and element tree; adjust attributes and appearance, add, reorder, resize or delete elements, and use desktop/tablet/mobile widths. Supported individual elements can be copied into independent native blocks.
+- **Optional document attribution:** App default is off. Every document can inherit, show, or hide a “Made with Document Studio” label; no designer name or email is inserted into document footers.
 - **Visual document editor:** Create documents using blocks such as headings, text, tables, charts, timelines, images, signatures, dividers, and more.
 - **Editing workspaces:** Design documents for the web, presentation, and print, with layout and appearance controls. On mobile, print tools open in a touch-friendly drawer and the true-size paper preview can fit the screen or be zoomed and panned.
 - **Tables:** Edit cells directly, select ranges, use spreadsheet-style keyboard shortcuts, insert or delete rows and columns, and merge cells.
@@ -37,6 +37,22 @@ Document Studio is a lightweight web app built with vanilla HTML, CSS, and JavaS
 **Changing an existing document’s language:** Use the bottom editor bar or Document settings. Choose **Keep current changes** to retain content without translation, **Reset template in new language** to replace the content and design with the built-in template, or **Cancel**. Reset preserves the document name and can be undone during the editing session. Reset is available only for documents created from built-in templates in version 3.6 or later; older documents, blank documents, and custom templates are protected. The setting in the application Settings page affects new documents only.
 
 For Persian documents, supported table input converts typed Latin and Arabic-Indic digits to Persian digits. The document language, not the interface language, controls this behavior.
+
+## Visual site builder (4.0)
+
+On Home choose **Start with code**, paste HTML/CSS or select an HTML file and optional supporting files or a folder. You can select which HTML page to import from the folder. The importer embeds matched small local CSS, images, fonts, media and JavaScript references in the imported HTML/CSS where supported. Relative paths in linked CSS are resolved against the CSS file. Supporting files are limited to 200 files, 1.6 MB total and 1.2 MB per file; the browser's localStorage quota may be lower once other documents are stored. Import report lists resolved, missing and ambiguous references and items needing review. File matching is best-effort: CSS `@import`, `srcset`, JavaScript module-relative imports and complex asset dependencies are not fully resolved. Keep the original files as a backup. The raw HTML input is kept separately and can be downloaded from the import report; it is not a complete backup of all original files.
+
+Use **Blocks** to add actual HTML elements and simplified HTML versions of ready blocks. The chart is static and the form has no built-in backend; these are not fully functional native document blocks. **Structure** shows up to 1,200 original DOM elements, and **Components** suggests up to 80 sections and containers. Select a target in the page or breadcrumb, then use + to insert a snapshot. Save a selected element to **My library** from its properties and rename or remove it there. Copied components share the page's CSS, do not carry all external dependencies, and have IDs renamed to prevent collisions, so ID-based CSS may differ. Runtime-generated DOM, shadow roots, canvases, and framework state are not extracted.
+
+Click an element to select; double-click a simple text-only element to edit. Drag the blue handle to reorder in page flow, or use the free-move option, which uses CSS `translate` and can overlap. Hold Alt while dropping to insert inside a suitable target. Drag the corner to resize. Use Delete or properties to remove, hide, show, duplicate and save elements. The breadcrumb lets you select parents. The properties panel has image replacement, styling, attributes, and mobile (up to 480px) and tablet (up to 768px) overrides. Responsive overrides are inline-generated CSS with `!important`, so they may override existing page rules. The page-width selector simulates viewport sizes, but it does not guarantee identical behaviour on every device.
+
+HTML is parsed and serialized by the browser during visual changes; formatting, doctype and DOM nesting may be normalized. Source, tree, inspector, history and local autosave stay in sync. **Add a copy to document blocks** remains separate: it supports H1–H4, paragraph, image, divider and link/button and creates an independent native block without transferring the complete appearance or scripts.
+
+Preview uses a sandboxed iframe. Scripts and external resources are off by default and individually require consent; direct canvas editing is disabled while scripts run. The sandbox is not a complete network firewall: JavaScript may navigate its frame and initiate network requests even with external resources off. Forms, popups, nested frames and top-level navigation are blocked in preview. External styles, fonts, scripts and assets need consent and may not appear offline. Dynamic and arbitrary sites are not guaranteed to reproduce exactly. **Download site HTML** preserves the edited HTML, embedded assets, optional extra CSS, and the optional document attribution setting. The exported HTML can execute its scripts and load its external assets when opened, so only open trusted code. The regular document export embeds a separate static sandboxed preview and long sites may be clipped when printed. See `docs/راهنمای-سایت-ساز.md` for Persian instructions.
+
+## Document attribution
+
+The app-wide **Document branding** setting defaults to off. In a document, **Document settings → Made with Document Studio label** offers app default, show, or hide. This affects document viewing, presentation, print, plain-text sharing and generated exports. For older documents the old `showFooter` flag is not used to show the old author footer; content and settings otherwise remain intact. User-authored names and footers in imported HTML or document content are not removed.
 
 ## Run locally
 

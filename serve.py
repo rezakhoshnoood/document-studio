@@ -25,7 +25,7 @@ except OSError as exc:
     print('Another server may be running. Stop it or run: start.bat 18799')
     sys.exit(1)
 url = f'http://localhost:{port}/'
-print('Document Studio 3.7.0')
+print('Document Studio 4.0.0')
 print(f'Folder: {Path.cwd()}')
 print(f'URL: {url}')
 print('Keep this window open. Press Ctrl+C to stop.')
